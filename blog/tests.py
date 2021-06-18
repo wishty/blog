@@ -7,6 +7,23 @@ class TestView(TestCase):
     def setUp(self):
         self.client = Client()
 
+    def navbar_tast(self, soup):
+        navber = soup.nav
+        self.assertIn('Blog', navber.text)
+        self.assertIn('About me', navber.text)
+
+        logo_btn = navber.find('a', text='wishty')
+        self.assertEqual(logo_btn.attrs['href'], '/')
+
+        home_btn = navber.find('a', text='Home')
+        self.assertEqual(home_btn.attrs['href'], '/')
+
+        blog_btn = navber.find('a', text='Blog')
+        self.assertEqual(blog_btn.attrs['href'], '/blog/')
+
+        about_me_btn = navber.find('a', text='About me')
+        self.assertEqual(about_me_btn.attrs['href'], '/about_me/')
+
     def test_post_list(self):
         # 1.1 포스트 목록 페이지를 가져온다.
         response = self.client.get('/blog/')
@@ -15,12 +32,8 @@ class TestView(TestCase):
         # 1.3 페이지 타이틀은 'Blog'이다.
         soup = BeautifulSoup(response.content, 'html.parser')
         self.assertEqual(soup.title.text, 'Blog')
-        # 1.4 내비게이션 바가 있다.
-        navbar = soup.nav
-        # 1.5 Blog, About Me라는 문구가 내비게이션 바에 있다.
-        self.assertIn('Blog', navbar.text)
-        self.assertIn('About me', navbar.text)
-
+        # 1.4 내비게이션 바가 있고 Blog, About Me라는 문구가 내비게이션 바에 있다.
+        self.navbar_tast(soup)
 
         # 2.1 메인 영역에 게시물(포스트)이 하나도 없다면
         self.assertEqual(Post.objects.count(), 0)
@@ -63,12 +76,9 @@ class TestView(TestCase):
         # 2.1 첫 번째 포스트의 url로 접근하면 정상적으로 작동한다.
         resource = self.client.get(post_001.get_absolute_url())
         self.assertEqual(resource.status_code, 200)
-
-        # 2.2 포스트 목록 페이지와 똑같은 내비게이션 바가 있다.
         soup = BeautifulSoup(resource.content, 'html.parser')
-        navbar = soup.nav
-        self.assertIn('Blog', navbar.text)
-        self.assertIn('About me', navbar.text)
+        # 2.2 내비게이션 바가 있고 Blog, About Me라는 문구가 내비게이션 바에 있다.
+        self.navbar_tast(soup)
 
         # 2.3 첫 번째 포스트의 제목이 웹 브라우저 탭 타이틀에 들어 있다.
         self.assertIn(post_001.title, soup.title.text)
@@ -83,8 +93,6 @@ class TestView(TestCase):
 
         # 2.6 첫 번째 포스트의 내용(content)이 포스트 영역에 있다.
         self.assertIn(post_001.content, post_area.text)
-
-
 
 
 
