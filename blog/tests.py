@@ -98,39 +98,47 @@ class TestView(TestCase):
         self.assertIn('아직 게시물이 없습니다', main_area.text)
 
     def test_post_detail(self):
-        # 1.1 포스트가 하나 있다.
-        post_001 = Post.objects.create(
-            title='첫번째 포스트입니다',
-            content='헬로 월드, 위아더 월드',
-            author=self.user_obama
-        )
-        # 1.2 포스트의 ulr은 '/blog/1/'이다.
-        self.assertEqual(post_001.get_absolute_url(), '/blog/1/')
+        # post_000 = Post.objects.create(
+        #     title='첫번째 포스트입니다',
+        #     content='헬로 월드, 위아더 월드',
+        #     author=self.user_obama
+        # )
 
-        # 2. 첫 번째 포스트의 상세 페이지 테스트
-        # 2.1 첫 번째 포스트의 url로 접근하면 정상적으로 작동한다.
-        resource = self.client.get(post_001.get_absolute_url())
+        self.assertEqual(self.post_001.get_absolute_url(), '/blog/1/')
+
+        resource = self.client.get(self.post_001.get_absolute_url())
         self.assertEqual(resource.status_code, 200)
         soup = BeautifulSoup(resource.content, 'html.parser')
-        # 2.2 내비게이션 바가 있고 Blog, About Me라는 문구가 내비게이션 바에 있다.
+
         self.navbar_tast(soup)
+        self.category_card_test(soup)
 
-        # 2.3 첫 번째 포스트의 제목이 웹 브라우저 탭 타이틀에 들어 있다.
-        self.assertIn(post_001.title, soup.title.text)
+        self.assertIn(self.post_001.title, soup.title.text)
 
-        # 2.4 첫 번째 포스트의 제목이 포스트 영역에 있다.
         main_area = soup.find('div', id='main-area')
         post_area = main_area.find('div', id='post-area')
-        self.assertIn(post_001.title, post_area.text)
+        self.assertIn(self.post_001.title, post_area.text)
 
         # 2.5 첫 번째 포스트의 작성자(author)가 포스트 영역에 있다(아직 구현할 수 없음)
         self.assertIn(self.user_obama.username.upper(), post_area.text)
 
-        # 2.6 첫 번째 포스트의 내용(content)이 포스트 영역에 있다.
-        self.assertIn(post_001.content, post_area.text)
+        self.assertIn(self.post_001.content, post_area.text)
 
+    def test_category_page(self):
+        response = self.client.get(self.category_life.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
 
+        soup = BeautifulSoup(response.content, 'html.parser')
+        self.navbar_tast(soup)
+        self.category_card_test(soup)
 
+        self.assertIn(self.category_life.name, soup.h1.text)
+
+        main_area = soup.find('div', id='main-area')
+        self.assertIn(self.category_life.name, main_area.text)
+        self.assertIn(self.post_001.title, main_area.text)
+        self.assertNotIn(self.post_002.title, main_area.text)
+        self.assertNotIn(self.post_003.title, main_area.text)
 
 
 
