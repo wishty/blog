@@ -1,6 +1,15 @@
 {% extends 'blog/base.html' %}
 
 {% block main_area %}
+
+    {% if user.is_authenticated %}
+        {% if user.is_superuser or user.is_staff %}
+            <a class="btn btn-secondary btn-sm float-end" href="/blog/create_post/" role="button">
+                <i class="fas fa-pen"></i>  New Post
+            </a>
+        {% endif %}
+    {% endif %}
+
     <h1>Blog
         {% if category %}<span class="badge bg-secondary">{{ category }}</span>{% endif %}
         {% if tag %}<span class="badge bg-light text-dark"><i class="fas fa-tags"></i>{{ tag }} ({{ tag.post_set.count }})</span>{% endif %}
@@ -17,9 +26,9 @@
             <div class="card-body">
                 <!-- Post categories-->
                 {% if p.category %}
-                    <span class="badge bg-secondary ">{{ p.category }}</span>
+                    <span class="badge bg-secondary float-end">{{ p.category }}</span>
                 {% else %}
-                    <span class="badge bg-secondary">미분류</span>
+                    <span class="badge bg-secondary float-end">미분류</span>
                 {% endif %}
                 <h2 class="card-title">{{ p.title }}</h2>
                 {% if p.hook_text %}
