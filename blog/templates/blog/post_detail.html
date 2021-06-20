@@ -50,8 +50,8 @@
             <!-- Post tags -->
             {% if post.tags.exists %}
                 <i class="fas fa-tags"></i>
-                {% for tag in post.tags.iterator %}
-                    <a href="{{ tag.gat_absolute_url }}"><span class="badge rounded-pill bg-light text-dark">{{ tag }}</span></a>
+                {% for tag in post.tags.all %}
+                    <a class="badge rounded-pill bg-light text-dark" href="{{ tag.get_absolute_url }}">{{ tag }}</a>
                 {% endfor %}
                 <br/>
                 <br/>
