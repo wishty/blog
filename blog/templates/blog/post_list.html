@@ -2,6 +2,7 @@
 
 {% block main_area %}
 
+    <!-- Create post-->
     {% if user.is_authenticated %}
         {% if user.is_superuser or user.is_staff %}
             <a class="btn btn-secondary btn-sm float-end" href="/blog/create_post/" role="button">
