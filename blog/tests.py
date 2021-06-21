@@ -1,7 +1,8 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from bs4 import BeautifulSoup
-from .models import Post, Category, Tag
+from .models import Post, Category, Comment, Tag
+
 
 class TestView(TestCase):
     def setUp(self):
@@ -40,21 +41,27 @@ class TestView(TestCase):
         self.post_003.tags.add(self.tag_python_kor)
         self.post_003.tags.add(self.tag_python)
 
-    def navbar_tast(self, soup):
-        navber = soup.nav
-        self.assertIn('Blog', navber.text)
-        self.assertIn('About me', navber.text)
+        self.comment_001 = Comment.objects.create(
+            post=self.post_001,
+            author=self.user_obama,
+            content='첫번째 댓글입니다.'
+        )
 
-        logo_btn = navber.find('a', text='wishty')
+    def navbar_test(self, soup):
+        navbar = soup.nav
+        self.assertIn('Blog', navbar.text)
+        self.assertIn('About me', navbar.text)
+
+        logo_btn = navbar.find('a', text='wishty')
         self.assertEqual(logo_btn.attrs['href'], '/')
 
-        home_btn = navber.find('a', text='Home')
+        home_btn = navbar.find('a', text='Home')
         self.assertEqual(home_btn.attrs['href'], '/')
 
-        blog_btn = navber.find('a', text='Blog')
+        blog_btn = navbar.find('a', text='Blog')
         self.assertEqual(blog_btn.attrs['href'], '/blog/')
 
-        about_me_btn = navber.find('a', text='About me')
+        about_me_btn = navbar.find('a', text='About me')
         self.assertEqual(about_me_btn.attrs['href'], '/about_me/')
 
     def category_card_test(self, soup):
@@ -72,7 +79,7 @@ class TestView(TestCase):
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        self.navbar_tast(soup)
+        self.navbar_test(soup)
         self.category_card_test(soup)
 
         main_area = soup.find('div', id='main-area')
@@ -110,7 +117,7 @@ class TestView(TestCase):
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        self.navbar_tast(soup)
+        self.navbar_test(soup)
 
         main_area = soup.find('div', id='main-area')
         self.assertIn('아직 게시물이 없습니다', main_area.text)
@@ -122,7 +129,7 @@ class TestView(TestCase):
         self.assertEqual(resource.status_code, 200)
         soup = BeautifulSoup(resource.content, 'html.parser')
 
-        self.navbar_tast(soup)
+        self.navbar_test(soup)
         self.category_card_test(soup)
 
         self.assertIn(self.post_001.title, soup.title.text)
@@ -139,12 +146,18 @@ class TestView(TestCase):
 
         self.assertIn(self.post_001.content, post_area.text)
 
+        # comment area
+        comments_area = soup.find('div', id='comment-area')
+        comment_001_area = comments_area.find('div', id='comment-1')
+        self.assertIn(self.comment_001.author.username, comment_001_area.text)
+        self.assertIn(self.comment_001.content, comment_001_area.text)
+
     def test_category_page(self):
         response = self.client.get(self.category_life.get_absolute_url())
         self.assertEqual(response.status_code, 200)
 
         soup = BeautifulSoup(response.content, 'html.parser')
-        self.navbar_tast(soup)
+        self.navbar_test(soup)
         self.category_card_test(soup)
 
         self.assertIn(self.category_life.name, soup.h1.text)
@@ -160,7 +173,7 @@ class TestView(TestCase):
         self.assertEqual(response.status_code, 200)
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        self.navbar_tast(soup)
+        self.navbar_test(soup)
         self.category_card_test(soup)
 
         self.assertIn(self.tag_hello.name, soup.h1.text)
@@ -264,64 +277,3 @@ class TestView(TestCase):
         self.assertIn('한글 태그', main_area.text)
         self.assertIn('some tag', main_area.text)
         self.assertNotIn('python', main_area.text)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
