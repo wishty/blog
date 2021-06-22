@@ -89,8 +89,16 @@
                             <div id="comment-{{ comment.pk }}" class="d-flex" >
                                 <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
                                 <div class="ms-3">
-                                    <div class="fw-bold">{{ comment.author.username }}  <small class="text-muted">{{ comment.created_at }}</small></div>
+                                    <div class="fw-bold">
+                                        {{ comment.author.username }} <small class="text-muted">{{ comment.created_at }}</small>
+                                        {% if user.is_authenticated and user == comment.author %}
+                                            <a id="comment-{{ comment.pk }}-update-btn" class="btn btn-secondary btn-sm float-end" href="/blog/update_comment/{{ comment.pk }}/" role="button">Edit</a>
+                                        {% endif %}
+                                    </div>
                                     <p>{{ comment.content | linebreaks }}</p>
+                                    {% if comment.created_at != comment.updated_at %}
+                                        <p class="text-muted float-end"><small>Updated: {{ comment.updated_at }}</small></p>
+                                    {% endif %}
                                 </div>
                             </div>
                             <br/>
