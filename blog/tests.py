@@ -405,7 +405,7 @@ class TestView(TestCase):
         comment_002_delete_modal_btn = comment_area.find('a', id='comment-2-delete-modal-btn')
 
         self.assertIn('Delete', comment_002_delete_modal_btn.text)
-        self.assertEqual(comment_002_delete_modal_btn.attrs['data-target'], '#deleteCommentModal-2')
+        self.assertEqual(comment_002_delete_modal_btn.attrs['data-bs-target'], '#deleteCommentModal-2')
 
         delete_comment_modal_002 = soup.find('div', id='deleteCommentModal-2')
         self.assertIn('Are You Sure?', delete_comment_modal_002.text)
