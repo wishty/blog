@@ -159,24 +159,6 @@ def new_comment(request, pk):
         raise PermissionDenied
 
 
-# def update_comment(request, pk):
-#     if request.user.is_authenticated:
-#         post = get_object_or_404(Post, pk=pk)
-#
-#         if request.method == 'POST':
-#             comment_form = Commentform(request.POST)
-#             if comment_form.is_valid():
-#                 comment = comment_form.save(commit=False)
-#                 comment.post = post
-#                 comment.author = request.user
-#                 comment.save()
-#                 return redirect(post.get_absolute_url())
-#         else:
-#             return redirect(post.get_absolute_url())
-#     else:
-#         raise PermissionDenied
-
-
 class CommentUpdate(LoginRequiredMixin, UpdateView):
     model = Comment
     form_class = CommentForm
@@ -187,6 +169,16 @@ class CommentUpdate(LoginRequiredMixin, UpdateView):
         else:
             raise PermissionDenied
 
+
+def delete_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    post = comment.post
+
+    if request.user.is_authenticated and request.user == comment.author:
+        comment.delete()
+        return redirect(post.get_absolute_url())
+    else:
+        raise PermissionDenied
 
 
 
