@@ -6,11 +6,8 @@ services:
     volumes:
       - static_volume:/usr/src/app/_static
       - media_volume:/usr/src/app/_media
-      - ./data/certbot/conf:/etc/letsencrypt
-      - ./data/certbot/www:/var/www/certbot
     ports:
       - 80:80
-      - 443:443
     depends_on:
       - web
   certbot:
