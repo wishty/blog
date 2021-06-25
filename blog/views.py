@@ -198,5 +198,3 @@ def delete_comment(request, pk):
 
 
 
-
-
