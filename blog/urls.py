@@ -14,4 +14,6 @@ urlpatterns = [
     path('', views.PostList.as_view()),
     path('category/<str:slug>/', views.category_page),
     path('tag/<str:slug>/', views.tag_page),
+
+    path('search/<str:q>/', views.PostSearch.as_view()),
 ]
