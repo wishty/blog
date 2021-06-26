@@ -49,20 +49,11 @@ class TestView(TestCase):
 
     def navbar_test(self, soup):
         navbar = soup.nav
-        self.assertIn('Blog', navbar.text)
-        self.assertIn('About me', navbar.text)
+        self.assertIn('FINE TIPS', navbar.text)
+        self.assertIn('About Me', navbar.text)
 
-        logo_btn = navbar.find('a', text='wishty')
-        self.assertEqual(logo_btn.attrs['href'], '/')
-
-        home_btn = navbar.find('a', text='Home')
-        self.assertEqual(home_btn.attrs['href'], '/')
-
-        blog_btn = navbar.find('a', text='Blog')
-        self.assertEqual(blog_btn.attrs['href'], '/blog/')
-
-        about_me_btn = navbar.find('a', text='About me')
-        self.assertEqual(about_me_btn.attrs['href'], '/about_me/')
+        about_me_btn = navbar.find('a', text='About Me')
+        self.assertEqual(about_me_btn.attrs['href'], '/page/about_me/')
 
     def category_card_test(self, soup):
         categories_card = soup.find('div', id='categories-card')
