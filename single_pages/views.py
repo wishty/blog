@@ -18,3 +18,12 @@ def landing(request):
             'recent_posts': recent_posts,
         }
     )
+
+def page_not_found(request, exception):
+    """
+    404 Page not found
+    """
+    return render(
+        request,
+        'common/404.html',
+    )

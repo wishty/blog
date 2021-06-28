@@ -11,7 +11,7 @@ def index(request):
 
 
 
-# def index(request):
+# def index(request):4
 #     return render(
 #         request,
 #         'board/index.html'
