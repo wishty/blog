@@ -219,7 +219,15 @@ LOGGING = {
             'level': 'INFO',
             'propagate': False,
         },
-        'pybo': {
+        'blog': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+        },
+        'board': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+        },
+        'single_pages': {
             'handlers': ['console', 'file'],
             'level': 'INFO',
         },
