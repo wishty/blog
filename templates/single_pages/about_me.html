@@ -7,12 +7,12 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>{% block head_title %}Blog{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.min.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}" media="screen">
     <script src="https://kit.fontawesome.com/8cf892c142.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-    {% include 'blog/navbar.html' %}
+    {% include 'navbar.html' %}
 
 <section>
     <div class="container mt-4">
@@ -53,7 +53,7 @@
         <div class="row">
             <div class="col-lg-4">
                 <div class="card" data-bs-toggle="modal" data-bs-target="#pycon2017">
-                    <img class="card-img-top" src="{% static 'single_pages/images/pycon_sy_2017.png' %}">
+                    <img class="card-img-top" src="{% static 'images/pycon_sy_2017.png' %}">
                     <div class="card-body">
                         <h5 class="card-title">파이썬으로 통계업무 자동화하기</h5>
                         <h4>[PYCON 2017]</h4>
@@ -64,7 +64,7 @@
 
             <div class="col-lg-4">
                 <div class="card" data-bs-toggle="modal" data-bs-target="#inf">
-                    <img class="card-img-top" src="{% static 'single_pages/images/inflearn_django2.png' %}">
+                    <img class="card-img-top" src="{% static 'images/inflearn_django2.png' %}">
                     <div class="card-body">
                         <h5 class="card-title">파이썬 사용자를 위한 웹개발 입문 A to Z Django + Bootstrap</h5>
                         <p>파이썬 웹개발에 대한 인프런 동영상 강의입니다.</p>
@@ -74,7 +74,7 @@
 
             <div class="col-lg-4">
                 <div class="card" data-bs-toggle="modal" data-bs-target="#pycon2017_3">
-                    <img class="card-img-top" src="{% static 'single_pages/images/automation_python.png' %}">
+                    <img class="card-img-top" src="{% static 'images/automation_python.png' %}">
                     <div class="card-body">
                         <h5 class="card-title">직장인을 위한 프로그래밍 입문과 업무자동화 활용</h5>
                         <p>파이썬 업무자동화에 대한 동영상 강의입니다.</p>
@@ -96,7 +96,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-7">
-                        <img class="img-fluid" src="{% static 'single_pages/images/pycon_sy_2017.png' %}">
+                        <img class="img-fluid" src="{% static 'images/pycon_sy_2017.png' %}">
                     </div>
                     <div class="col-lg-5">
                         <p>Python, Django, Pandas, python-docx로 통계업무 자동화한 내용을 파이콘에서 발표했습니다.</p>
@@ -118,7 +118,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-7">
-                        <img class="img-fluid" src="{% static 'single_pages/images/inflearn_django2.png' %}">
+                        <img class="img-fluid" src="{% static 'images/inflearn_django2.png' %}">
                     </div>
                     <div class="col-lg-5">
                         <p>이썬 초보를 대상으로 한 웹개발 강좌입니다. 인프런에서 서비스하고 있습니다.</p>
@@ -140,7 +140,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-7">
-                        <img class="img-fluid" src="{% static 'single_pages/images/automation_python.png' %}">
+                        <img class="img-fluid" src="{% static 'images/automation_python.png' %}">
                     </div>
                     <div class="col-lg-5">
                         <p>코딩에 대해 아무것도 모르는 직장인들도 쉽게 프로그래밍의 기본 개념과 문법을 실습을 통해 배우고, 파일 입출력, 엑셀 데이터 처리, MS-word 문서 자동으로 만들기, 그래프 그리기, 웹스크래핑 등을 배웁니다.</p>
@@ -154,7 +154,7 @@
     </div>
 </div>
 
-    {% include 'blog/footer.html' %}
+    {% include 'footer.html' %}
 
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>

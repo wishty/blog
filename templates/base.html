@@ -7,12 +7,12 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>{% block head_title %}Blog{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.min.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}" media="screen">
     <script src="https://kit.fontawesome.com/8cf892c142.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-    {% include 'blog/navbar.html' %}
+    {% include 'navbar.html' %}
 
     <div class="container my-3">
         <div class="row">
@@ -68,7 +68,7 @@
         });
     </script>
 
-    {% include 'blog/footer.html' %}
+    {% include 'footer.html' %}
 
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
