@@ -199,18 +199,3 @@ class PostSearch(PostList):
         contxet['search_info'] = f'Search: {q} ({self.get_queryset().count()})'
 
         return contxet
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

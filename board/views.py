@@ -1,8 +1,10 @@
-import logging
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Question, Answer
+from django.core.paginator import Paginator
 from django.utils import timezone
+from .models import Question
 from .forms import QuestionForm, AnswerForm
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -11,9 +13,21 @@ def index(request):
     """
     board 목록 출력
     """
-    question_list = Question.objects.order_by('-create_date')
-    context = {'question_list': question_list}
+
     #logger.info("INFO 레벨로 출력")
+
+    # 입력 인자
+    page = request.GET.get('page', '1')  # 페이지
+
+    # 조회
+    question_list = Question.objects.order_by('-create_date')
+
+    # 페이징 처리
+    paginator = Paginator(question_list, 10)  # 페이지다 10개씩 보여주기
+    page_ojb = paginator.get_page(page)
+
+    context = {'question_list': page_ojb}
+
     return render(
         request,
         'board/question_list.html',
@@ -34,6 +48,7 @@ def detail(request, question_id):
     )
 
 
+# @login_required(login_url='common:login')
 def answer_create(request, question_id):
     """
     board 답변 등록
@@ -43,6 +58,7 @@ def answer_create(request, question_id):
         form = AnswerForm(request.POST)
         if form.is_valid():
             answer = form.save(commit=False)
+            answer.author = request.user
             answer.create_date = timezone.now()
             answer.question = question
             answer.save()
@@ -58,6 +74,7 @@ def answer_create(request, question_id):
     )
 
 
+# @login_required(login_url='common:login')
 def question_create(request):
     """
     board 질문 등록
@@ -66,6 +83,7 @@ def question_create(request):
         form = QuestionForm(request.POST)
         if form.is_valid():
             question = form.save(commit=False)
+            question.author = request.user
             question.create_date = timezone.now()
             question.save()
             return redirect('board:index')
@@ -78,3 +96,4 @@ def question_create(request):
         'board/question_form.html',
          context,
     )
+
